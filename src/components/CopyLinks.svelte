@@ -12,12 +12,14 @@
   const handleCopy = () => {
     //@ts-ignore
     navigator.clipboard.writeText(
-      JSON.stringify(
-        links.map((v) => ({
-          name: v.name,
-          url: v.url
-        }))
-      )
+      ',' +
+        JSON.stringify(
+          links.map((v) => ({
+            name: v.name,
+            url: v.url,
+            category: ''
+          }))
+        ).slice(1, -1)
     );
     icon = faCheck;
     setTimeout(() => (icon = faCopy), 1000);
