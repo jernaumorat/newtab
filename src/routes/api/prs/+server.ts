@@ -4,7 +4,11 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 
 const gh = new Octokit({ auth: GITHUB_TOKEN });
 
-export const GET: RequestHandler = async ({ url }) => {
+export const GET: RequestHandler = async ({ setHeaders }) => {
+  setHeaders({
+    'cache-control': 'max-age=60'
+  });
+
   const repos = (await gh.rest.repos.listForOrg({ org: GITHUB_ORG })).data
     .map((v) => v.name)
     .filter((name) => name.includes(GITHUB_FILTER));
@@ -25,7 +29,6 @@ export const GET: RequestHandler = async ({ url }) => {
           res.data
             .flat()
             .filter((v) => v.created_at > lastWeek.toISOString())
-            // .filter((v) => )
             .map((v) => ({
               url: v.html_url,
               name: `${v.base.repo.name}/#${v.number} - ${v.title}`,

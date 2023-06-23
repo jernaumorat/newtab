@@ -2,7 +2,11 @@ import { JIRA_TOKEN, JIRA_ASSIGNEE, JIRA_PROJECT, JIRA_URL, JIRA_USERNAME } from
 import { json, type RequestHandler } from '@sveltejs/kit';
 import type { TLink } from '../../../LINKS';
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ setHeaders }) => {
+  setHeaders({
+    'cache-control': 'max-age=60'
+  });
+
   const issues: TLink[] = (
     await (
       await fetch(
