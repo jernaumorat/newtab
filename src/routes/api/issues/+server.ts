@@ -6,7 +6,11 @@ export const GET: RequestHandler = async () => {
   const issues: TLink[] = (
     await (
       await fetch(
-        `${JIRA_URL}/rest/api/3/search?jql=project=${JIRA_PROJECT} AND status in ("In Progress"%2C "In Review"%2C "To Do") AND assignee=${JIRA_ASSIGNEE}`,
+        `${JIRA_URL}/rest/api/3/search?jql=` +
+          `project=${JIRA_PROJECT} AND ` +
+          `sprint in openSprints() AND ` +
+          `status in ("In Progress"%2C "In Review"%2C "To Do") ` +
+          `AND assignee=${JIRA_ASSIGNEE}`,
         {
           headers: {
             Authorization: `Basic ${btoa(`${JIRA_USERNAME}:${JIRA_TOKEN}`)}`
