@@ -9,9 +9,17 @@
   let name: string = '';
   let url: string = '';
 
+  const normaliseURL = (url: string) => {
+    if (/^[a-z0-9]+:\/\//.test(url)) {
+      return new URL(url).toString();
+    }
+
+    return new URL(`https://${url}`).toString();
+  };
+
   const handleClick = (save: boolean) => {
     showModal = false;
-    const link = { name, url, category: 'inbox' } as TLink;
+    const link = { name, url: normaliseURL(url), category: 'inbox' } as TLink;
     name = url = '';
 
     if (save) {
