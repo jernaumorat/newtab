@@ -1,8 +1,11 @@
 # newtab
 
 ## Building
+Fill out all variables in `/.env` (copy `/.env.example`). No error handling (or feature toggling) is yet
+implemented so an incomplete `.env` will likely result in failure to run.
+
 Run `yarn build` to compile to the `build` directory, then run `start.sh` (or add to Login Items in macOS)
-to host (http://localhost:1337 by default).
+to host (http://localhost:1337 by default). Alternatively, run the dev server with `yarn start` (or `yarn dev`).
 
 ## Using
 I'm using the [Custom New Tab URL](https://chrome.google.com/webstore/detail/mmjbdbjnoablegbkcklggeknkfcjkjia)
