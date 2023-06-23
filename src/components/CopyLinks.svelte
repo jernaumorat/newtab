@@ -30,8 +30,8 @@
   };
 </script>
 
-<button class="copy" on:click={handleCopy}><Fa {icon} /></button>
-<button class="clear" on:click={handleClear}><Fa icon={faX} /></button>
+<button class="copy" title="Copy links as JSON" on:click={handleCopy}><Fa {icon} /></button>
+<button class="clear" title="Clear all inbox links" on:click={handleClear}><Fa icon={faX} /></button>
 
 <style lang="scss">
   .clear {

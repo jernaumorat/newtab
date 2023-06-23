@@ -28,7 +28,7 @@
   };
 </script>
 
-<button class="add-button" on:click={() => (showModal = true)}><Fa icon={faPlus} /></button>
+<button class="add-button" title="Add new link" on:click={() => (showModal = true)}><Fa icon={faPlus} /></button>
 
 {#if showModal}
   <div
