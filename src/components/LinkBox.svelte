@@ -22,7 +22,11 @@
 
 <Panel>
   <span class="title">
-    <h2>{category.label}</h2>
+    {#if 'labelLink' in category}
+      <a href={category.labelLink}><h2>{category.label}</h2></a>
+    {:else}
+      <h2>{category.label}</h2>
+    {/if}
     <img src={category.image} alt={category.label} />
   </span>
 
@@ -56,6 +60,15 @@
     h2 {
       font-size: 14pt;
     }
+
+    a {
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
     img {
       min-height: 32px;
       max-height: 32px;

@@ -15,8 +15,22 @@
 <div class="container">
   <LinkPanel links={LINKS.main ?? []} />
 
-  <LinkBox category={{ label: 'Pull Requests', image: '/github.png' }} fetchUrl="/api/prs" />
-  <LinkBox category={{ label: 'Tickets', image: '/atlassian.svg' }} fetchUrl="/api/issues" />
+  <LinkBox
+    category={{
+      label: 'Pull Requests',
+      image: '/github.png',
+      labelLink: 'https://github.com/pulls?q=is%3Aopen+is%3Apr+org%3Acloud-wave+-author%3Aapp%2Fdependabot'
+    }}
+    fetchUrl="/api/prs"
+  />
+  <LinkBox
+    category={{
+      label: 'Tickets',
+      image: '/atlassian.svg',
+      labelLink: 'https://cloud-wave.atlassian.net/jira/software/c/projects/NEON/boards/27'
+    }}
+    fetchUrl="/api/issues"
+  />
 
   <LinkBox category={CATEGORIES['aws']} links={LINKS.aws ?? []} />
   <LinkBox category={CATEGORIES['github']} links={LINKS.github ?? []} />
