@@ -9,7 +9,7 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
     'cache-control': 'max-age=60'
   });
 
-  const repos = (await gh.rest.repos.listForOrg({ org: GITHUB_ORG })).data
+  const repos = (await gh.rest.repos.listForOrg({ org: GITHUB_ORG, per_page: 200 })).data
     .map((v) => v.name)
     .filter((name) => name.includes(GITHUB_FILTER));
 
