@@ -38,9 +38,7 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
     )
   );
 
-  return json({
-    ...pullRequests.flat()
-  });
+  return json(pullRequests.flat());
 };
 
 export type TPRResponse = { pullRequests: { url: string; title: string; repo: string; number: number }[] };

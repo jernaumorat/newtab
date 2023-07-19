@@ -13,7 +13,7 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
         `${JIRA_URL}/rest/api/3/search?jql=` +
           `project=${JIRA_PROJECT} AND ` +
           `sprint in openSprints() AND ` +
-          `status in ("In Progress"%2C "In Review"%2C "To Do") ` +
+          `status in ("In Progress"%2C "In Review"%2C "To Do"%2C "Blocked") ` +
           `AND assignee=${JIRA_ASSIGNEE}`,
         {
           headers: {
