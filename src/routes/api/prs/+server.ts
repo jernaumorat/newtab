@@ -32,8 +32,9 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
             .map((v) => ({
               url: v.html_url,
               name: `${v.base.repo.name}/#${v.number} - ${v.title}`,
-              group: v.user?.login === GITHUB_USERNAME ? 'My PRs' : 'Team PRs'
+              group: v.draft ? 'Draft PRs' : v.user?.login === GITHUB_USERNAME ? 'My PRs' : 'Team PRs'
             }))
+            .sort((a, b) => (a.group === b.group ? (a.name > b.name ? 1 : -1) : a.group > b.group ? 1 : -1))
         )
     )
   );
