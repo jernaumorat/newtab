@@ -78,5 +78,20 @@
 
   .links {
     overflow-y: auto;
+    height: 90%;
+
+    &::-webkit-scrollbar {
+      background: none;
+      width: 5px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: darken(darkgrey, 20%);
+      border-radius: 10px;
+
+      &:hover {
+        background: darkgrey;
+      }
+    }
   }
 </style>
