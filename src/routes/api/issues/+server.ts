@@ -22,12 +22,14 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
         }
       )
     ).json()
-  ).issues.map((v: any) => ({
-    name: `${v.key} - ${v.fields.summary}`,
-    group: v.fields.status.name,
-    url: `${JIRA_URL}/browse/${v.key}`,
-    icon: v.fields.issuetype.iconUrl
-  }));
+  ).issues
+    .map((v: any) => ({
+      name: `${v.key} - ${v.fields.summary}`,
+      group: v.fields.status.name,
+      url: `${JIRA_URL}/browse/${v.key}`,
+      icon: v.fields.issuetype.iconUrl
+    }))
+    .sort((a: any, b: any) => (a.name > b.name ? 1 : -1));
 
   // <a href={issue.url}><img src={issue.taskIcon} />{issue.ticket} - {issue.title} - {issue.status}</a><br />
 
