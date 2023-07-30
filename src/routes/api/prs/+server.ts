@@ -4,6 +4,8 @@ import { json, type RequestHandler } from '@sveltejs/kit';
 
 const gh = new Octokit({ auth: GITHUB_TOKEN });
 
+const group_sort = ['My PRs', 'Team PRs', 'Draft PRs'];
+
 export const GET: RequestHandler = async ({ setHeaders }) => {
   setHeaders({
     'cache-control': 'max-age=60'
@@ -32,9 +34,15 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
             .map((v) => ({
               url: v.html_url,
               name: `${v.base.repo.name}/#${v.number} - ${v.title}`,
-              group: v.draft ? 'Draft PRs' : v.user?.login === GITHUB_USERNAME ? 'My PRs' : 'Team PRs'
+              group: v.user?.login === GITHUB_USERNAME ? 'My PRs' : v.draft ? 'Draft PRs' : 'Team PRs'
             }))
-            .sort((a, b) => (a.group === b.group ? (a.name > b.name ? 1 : -1) : a.group > b.group ? 1 : -1))
+            .sort((a, b) =>
+              a.group === b.group
+                ? a.name > b.name
+                  ? 1
+                  : -1
+                : group_sort.indexOf(a.group) - group_sort.indexOf(b.group)
+            )
         )
     )
   );
