@@ -1,28 +1,30 @@
-import { JIRA_TOKEN, JIRA_ASSIGNEE, JIRA_PROJECT, JIRA_URL, JIRA_USERNAME } from '$env/static/private';
+import { JIRA_TOKEN, JIRA_ASSIGNEE, JIRA_PROJECTS, JIRA_URL, JIRA_USERNAME } from '$env/static/private';
 import { json, type RequestHandler } from '@sveltejs/kit';
 import type { TLink } from '../../../LINKS';
+
+const projectStrings = JIRA_PROJECTS.split(',')
+  .map((proj) => `project=${proj}`)
+  .join(' OR ');
 
 export const GET: RequestHandler = async ({ setHeaders }) => {
   setHeaders({
     'cache-control': 'max-age=60'
   });
 
-  const issues: TLink[] = (
-    await (
-      await fetch(
-        `${JIRA_URL}/rest/api/3/search?jql=` +
-          `project=${JIRA_PROJECT} AND ` +
-          `sprint in openSprints() AND ` +
-          `status in ("In Progress"%2C "In Review"%2C "To Do"%2C "Blocked") ` +
-          `AND assignee=${JIRA_ASSIGNEE}`,
-        {
-          headers: {
-            Authorization: `Basic ${btoa(`${JIRA_USERNAME}:${JIRA_TOKEN}`)}`
-          }
-        }
-      )
-    ).json()
-  ).issues
+  const response = await fetch(
+    `${JIRA_URL}/rest/api/3/search?jql=` +
+      `(${projectStrings}) AND ` +
+      `sprint in openSprints() AND ` +
+      `status in ("In Progress"%2C "In Review"%2C "To Do"%2C "Blocked") ` +
+      `AND assignee=${JIRA_ASSIGNEE}`,
+    {
+      headers: {
+        Authorization: `Basic ${btoa(`${JIRA_USERNAME}:${JIRA_TOKEN}`)}`
+      }
+    }
+  );
+
+  const issues: TLink[] = (await response.json()).issues
     .map((v: any) => ({
       name: `${v.key} - ${v.fields.summary}`,
       group: v.fields.status.name,

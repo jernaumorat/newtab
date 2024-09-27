@@ -31,6 +31,7 @@
   },
   "type": "module",
   "dependencies": {
+    "@azure/msal-node": "^2.0.1",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@octokit/rest": "^19.0.13",
     "@sveltejs/adapter-node": "^1.2.4",
@@ -40,5 +41,8 @@
     "sass": "^1.63.4",
     "svelte-fa": "^3.0.4",
     "svelte-preprocess": "^5.0.4"
+  },
+  "engines": {
+    "node": "^18"
   }
 }

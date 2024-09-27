@@ -31,6 +31,7 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
           res.data
             .flat()
             .filter((v) => v.created_at > lastWeek.toISOString())
+            .filter((v) => v.user?.type !== 'Bot')
             .map((v) => ({
               url: v.html_url,
               name: `${v.base.repo.name}/#${v.number} - ${v.title}`,
