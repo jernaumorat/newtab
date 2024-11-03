@@ -19,7 +19,8 @@
     category={{
       label: 'Pull Requests',
       image: '/github.png',
-      labelLink: 'https://github.com/pulls?q=is%3Aopen+is%3Apr+org%3Acloud-wave+-author%3Aapp%2Fdependabot'
+      labelLink:
+        'https://github.com/pulls?q=is%3Aopen+is%3Apr+org%3Acloudwave-solutions+org%3Acloud-wave+-author%3Aapp%2Fdependabot+'
     }}
     fetchUrl="/api/prs"
   />
