@@ -30,8 +30,7 @@
     grid-auto-rows: 100px;
     /* grid-auto-flow: column dense; */
     gap: 30px;
-    overflow-y: auto;
-    overflow-x: none;
+    overflow: scroll !important;
     scrollbar-width: none;
 
     &::-webkit-scrollbar {
