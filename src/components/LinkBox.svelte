@@ -9,10 +9,10 @@
   export let links: TLink[] | undefined = undefined;
   export let fetchUrl: string = '';
 
+  let groupedLinks: ReturnType<typeof groupLinks> = undefined;
+
   const groupLinks = (links: TLink[]) =>
     links?.some((v) => 'group' in v) ? categoriseLinks(links ?? [], 'group') : undefined;
-
-  let groupedLinks: ReturnType<typeof groupLinks> = undefined;
 
   onMount(async () => {
     links = links ?? Object.values(await (await fetch(fetchUrl)).json());

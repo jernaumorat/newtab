@@ -40,7 +40,8 @@
     "jira-client": "^8.2.2",
     "sass": "^1.63.4",
     "svelte-fa": "^3.0.4",
-    "svelte-preprocess": "^5.0.4"
+    "svelte-preprocess": "^5.0.4",
+    "ts-pattern": "^5.7.1"
   },
   "engines": {
     "node": "^18"

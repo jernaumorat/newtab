@@ -1,6 +1,7 @@
-import { GITHUB_TOKEN, GITHUB_ORG, GITHUB_USERNAME, GITHUB_FILTER } from '$env/static/private';
+import { GITHUB_TOKEN, GITHUB_ORG, GITHUB_USERNAME, GITHUB_FILTER, SVMNL_URL, SVMNL_KEY } from '$env/static/private';
 import { Octokit } from '@octokit/rest';
 import { json, type RequestHandler } from '@sveltejs/kit';
+import { match } from 'ts-pattern';
 
 const gh = new Octokit({ auth: GITHUB_TOKEN });
 
@@ -11,44 +12,41 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
     'cache-control': 'max-age=60'
   });
 
-  const repos = (await gh.rest.repos.listForOrg({ org: GITHUB_ORG, per_page: 200 })).data
-    .map((v) => v.name)
-    .filter((name) => name.includes(GITHUB_FILTER));
+  const { pullRequests } = (await (
+    await fetch(`${SVMNL_URL}/api/open-prs?org=${GITHUB_ORG}&username=${GITHUB_USERNAME}`, {
+      headers: { Authorization: `Bearer ${SVMNL_KEY}` }
+    })
+  ).json()) as TPRResponse;
 
-  const lastWeek = new Date();
-  lastWeek.setDate(lastWeek.getDate() - 7);
+  console.log(JSON.stringify(pullRequests.flat(), null, 2));
 
-  const pullRequests = await Promise.all(
-    repos.map((repo) =>
-      gh.rest.pulls
-        .list({
-          owner: GITHUB_ORG,
-          repo,
-          state: 'open',
-          per_page: 1000
-        })
-        .then((res) =>
-          res.data
-            .flat()
-            .filter((v) => v.created_at > lastWeek.toISOString())
-            .filter((v) => v.user?.type !== 'Bot')
-            .map((v) => ({
-              url: v.html_url,
-              name: `${v.base.repo.name}/#${v.number} - ${v.title}`,
-              group: v.user?.login === GITHUB_USERNAME ? 'My PRs' : v.draft ? 'Draft PRs' : 'Team PRs'
-            }))
-            .sort((a, b) =>
-              a.group === b.group
-                ? a.name > b.name
-                  ? 1
-                  : -1
-                : group_sort.indexOf(a.group) - group_sort.indexOf(b.group)
-            )
-        )
-    )
-  );
+  const formattedPRs = pullRequests
+    .flat()
+    .map(({ url, title, number, repoName, approvedByMe, owned, owner, draft }) => ({
+      name: `${approvedByMe ? '✓ ' : ''}${repoName} - ${owner} - ${title} #${number}`,
+      group: match({ owned, draft })
+        .with({ draft: true }, () => 'Draft PRs')
+        .with({ owned: true }, () => 'My PRs')
+        .otherwise(() => 'Team PRs'),
+      category: 'github',
+      url
+    }));
 
-  return json(pullRequests.flat());
+  console.log(JSON.stringify(formattedPRs, null, 2));
+
+  return json(formattedPRs);
 };
 
-export type TPRResponse = { pullRequests: { url: string; title: string; repo: string; number: number }[] };
+export type TPRResponse = {
+  pullRequests: {
+    url: string;
+    title: string;
+    repoName: string;
+    number: number;
+    owned: boolean;
+    owner: boolean;
+    draft: boolean;
+    blocked: boolean;
+    approvedByMe: boolean;
+  }[];
+};
