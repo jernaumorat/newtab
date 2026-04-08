@@ -33,7 +33,7 @@
   {#if links === undefined}
     <span>loading...</span>
   {:else}
-    <div class="links">
+    <div class={`links ${category.label === 'Homelab' ? 'tailscale' : ''}`}>
       {#if groupedLinks}
         {#each Object.entries(groupedLinks) as [group, links]}
           <h5>{group}</h5>
@@ -51,6 +51,10 @@
 </Panel>
 
 <style lang="scss">
+  .tailscale {
+    columns: 2;
+  }
+
   .title {
     display: flex;
     justify-content: space-between;
@@ -92,6 +96,15 @@
       &:hover {
         background: darkgrey;
       }
+    }
+
+    h5 {
+      margin-bottom: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    h5:first-child {
+      margin-top: 0rem;
     }
   }
 </style>

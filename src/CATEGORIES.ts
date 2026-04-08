@@ -3,7 +3,7 @@ const CATEGORIES = {
   github: { label: 'GitHub', image: '/github.png', labelLink: 'https://github.com/cloud-wave' },
   neon: { label: 'NEONNOW Environments', image: '/neon.png' },
   atlassian: { label: 'Confluence Pages', image: '/atlassian.svg' },
-  inbox: { label: 'Inbox', image: '/inbox.png' }
+  tailscale: { label: 'Homelab', image: '/tailscale.svg', labelLink: 'https://login.tailscale.com/admin' }
 };
 
 export default CATEGORIES;

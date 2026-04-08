@@ -1,15 +1,8 @@
 <script lang="ts">
   import LinkBox from '../components/LinkBox.svelte';
   import LinkPanel from '../components/LinkPanel.svelte';
-  import LINKS, { type TLink } from '../LINKS';
+  import LINKS from '../LINKS';
   import CATEGORIES from '../CATEGORIES';
-  import AddLink from '../components/AddLink.svelte';
-  import { inboxLinks } from '../inbox';
-  import CopyLinks from '../components/CopyLinks.svelte';
-
-  let inLinks: TLink[] = [];
-
-  inboxLinks.subscribe((newLinks) => (inLinks = newLinks));
 </script>
 
 <div class="container">
@@ -28,7 +21,7 @@
     category={{
       label: 'Tickets',
       image: '/atlassian.svg',
-      labelLink: 'https://cloud-wave.atlassian.net/jira/software/c/projects/NEON/boards/27'
+      labelLink: 'https://cloud-wave.atlassian.net/jira/software/c/projects/PLAT/boards/110'
     }}
     fetchUrl="/api/issues"
   />
@@ -36,10 +29,7 @@
   <LinkBox category={CATEGORIES['aws']} links={LINKS.aws ?? []} />
   <LinkBox category={CATEGORIES['github']} links={LINKS.github ?? []} />
   <LinkBox category={CATEGORIES['neon']} links={LINKS.neon ?? []} />
-  <LinkBox category={CATEGORIES['inbox']} links={inLinks ?? []} />
-
-  <AddLink />
-  <CopyLinks />
+  <LinkBox category={CATEGORIES['tailscale']} links={LINKS.tailscale ?? []} />
 </div>
 
 <style lang="scss">

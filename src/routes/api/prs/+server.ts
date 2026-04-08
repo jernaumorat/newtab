@@ -18,8 +18,6 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
     })
   ).json()) as TPRResponse;
 
-  console.log(JSON.stringify(pullRequests.flat(), null, 2));
-
   const formattedPRs = pullRequests
     .flat()
     .map(({ url, title, number, repoName, approvedByMe, owned, owner, draft }) => ({
@@ -31,8 +29,6 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
       category: 'github',
       url
     }));
-
-  console.log(JSON.stringify(formattedPRs, null, 2));
 
   return json(formattedPRs);
 };

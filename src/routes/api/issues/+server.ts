@@ -12,7 +12,7 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
   });
 
   const response = await fetch(
-    `${JIRA_URL}/rest/api/3/search?jql=` +
+    `${JIRA_URL}/rest/api/3/search/jql?fields=*all&jql=` +
       `(${projectStrings}) AND ` +
       `sprint in openSprints() AND ` +
       `status in ("In Progress"%2C "In Review"%2C "To Do"%2C "Blocked"%2C "Dev Test") ` +
@@ -24,12 +24,14 @@ export const GET: RequestHandler = async ({ setHeaders }) => {
     }
   );
 
-  const issues: TLink[] = (await response.json()).issues
+  const jsonBody = await response.json();
+
+  const issues: TLink[] = jsonBody.issues
     .map((v: any) => ({
-      name: `${v.key} - ${v.fields.summary}`,
-      group: v.fields.status.name,
+      name: `${v.key} - ${v.fields?.summary}`,
+      group: v.fields?.status.name,
       url: `${JIRA_URL}/browse/${v.key}`,
-      icon: v.fields.issuetype.iconUrl
+      icon: v.fields?.issuetype.iconUrl
     }))
     .sort((a: any, b: any) => (a.name > b.name ? 1 : -1));
 

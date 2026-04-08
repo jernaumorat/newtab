@@ -16,7 +16,7 @@
 <style lang="scss">
   span {
     display: block;
-    margin-block: 0.5rem;
+    margin-bottom: 0.5rem;
   }
 
   a {
