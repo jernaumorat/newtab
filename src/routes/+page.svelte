@@ -12,8 +12,7 @@
     category={{
       label: 'Pull Requests',
       image: '/github.png',
-      labelLink:
-        'https://github.com/pulls?q=is%3Aopen+is%3Apr+org%3Acloudwave-solutions+org%3Acloud-wave+-author%3Aapp%2Fdependabot+'
+      labelLink: 'https://github.com/pulls?q=is%3Aopen+org%3Acloud-wave+-author%3Aapp%2Fdependabot+'
     }}
     fetchUrl="/api/prs"
   />
@@ -21,7 +20,7 @@
     category={{
       label: 'Tickets',
       image: '/atlassian.svg',
-      labelLink: 'https://cloud-wave.atlassian.net/jira/software/c/projects/PLAT/boards/110'
+      labelLink: 'https://neonnow-ai.atlassian.net/jira/software/c/projects/PLAT/boards/110'
     }}
     fetchUrl="/api/issues"
   />
